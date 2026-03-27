@@ -39,8 +39,17 @@ endif()
 
 # 3. Include and Link Directories
 # Removed $ENV usage to let the CMake Generator handle VS2005 system paths
-include_directories("${PROJECT_SOURCE_DIR}/others/includes")
-link_directories("${PROJECT_SOURCE_DIR}/others/libs")
+include_directories(
+        "${PROJECT_SOURCE_DIR}/others/dxsdk/Include"
+        "${PROJECT_SOURCE_DIR}/others/includes"
+        "${PROJECT_SOURCE_DIR}/others/vmprotect"
+)
+
+link_directories(
+        "${PROJECT_SOURCE_DIR}/others/dxsdk/Lib"
+        "${PROJECT_SOURCE_DIR}/others/libs"
+        "${PROJECT_SOURCE_DIR}/others/vmprotect"
+)
 
 # 4. DLL Specific Definitions
 add_definitions(-D_WINDLL)
