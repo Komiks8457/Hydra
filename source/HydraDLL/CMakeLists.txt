@@ -11,9 +11,10 @@ generate_product_version(VersionInfo
 )
 
 set(RESOURCE_FILES "src/Hydra.cpp" "src/Hydra.def" "src/Library.cpp" "src/StaticPatches.cpp")
-add_library(Hydra SHARED ${RESOURCE_FILES} ${VersionInfo})
 
-target_link_libraries(Hydra
+add_library(HydraDLL SHARED ${RESOURCE_FILES} ${VersionInfo})
+
+target_link_libraries(HydraDLL
         Common
         AgentServer
         DownloadServer
@@ -26,20 +27,20 @@ target_link_libraries(Hydra
 )
 
 if(MSVC)
-    set_target_properties(Hydra PROPERTIES LINK_FLAGS "/DEF:\"src/Hydra.def\"")
+    set_target_properties(HydraDLL
+            PROPERTIES
+            LINK_FLAGS "/DEF:\"src/Hydra.def\""
+            RUNTIME_OUTPUT_DIRECTORY "${PROJECT_SOURCE_DIR}/build/Client"
+            OUTPUT_NAME "Hydra"
+    )
 endif()
 
-add_custom_command(
-        TARGET Hydra
+add_custom_command(TARGET HydraDLL
         PRE_BUILD
         COMMAND ${CMAKE_COMMAND} ${CMAKE_SOURCE_DIR}
-)
-
-add_custom_command(
-        TARGET Hydra
         POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Hydra> "H:/silkroadr/Hydra.dll"
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Hydra> "H:/silkroadr/ASGS/AgentServer1/Hydra.dll"
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Hydra> "H:/silkroadr/ASGS/GameServer1/Hydra.dll"
-        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:Hydra> "H:/silkroadr/SMC/Hydra.dll"
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:HydraDLL> "H:/silkroadr/Hydra.dll"
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:HydraDLL> "H:/silkroadr/ASGS/AgentServer1/Hydra.dll"
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:HydraDLL> "H:/silkroadr/ASGS/GameServer1/Hydra.dll"
+        COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:HydraDLL> "H:/silkroadr/SMC/Hydra.dll"
 )

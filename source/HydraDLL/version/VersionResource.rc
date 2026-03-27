@@ -1,6 +1,6 @@
 #ifdef RC_INVOKED
 
-#include "VersionInfo.h"
+#include "version.h"
 #include "winver.h"
 
 LANGUAGE            0x9, 0x1
