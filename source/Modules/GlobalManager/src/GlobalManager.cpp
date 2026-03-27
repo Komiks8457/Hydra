@@ -25,15 +25,10 @@ int GlobalManager_WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lp
     //assign our g_pGlobalManager global pointer
     g_pGlobalManager = *(CGlobalManager**)0x01868950; // or (CGlobalManager*)0x01856948;
 
-    //CNetEngine* pNetEngine = (CNetEngine*)MEMUTIL_ADD_PTR(g_pGlobalManager, 0x14C);
-
-    //if (!pNetEngine) return NULL;
-
-    Logger::warn2("g_pGlobalManager = CGlobalManager Instance (0x%p)", g_pGlobalManager);
+    //Logger::warn2("g_pGlobalManager = CGlobalManager Instance (0x%p)", g_pGlobalManager);
 
     //return sub_170C6F0(0, "GlobalManager", hInstance, (int)lpCmdLine, 1, 0);
-
-    return reinterpret_cdecl(0x0170C6F0, int, 0, "GlobalManager", hInstance, (int)lpCmdLine, 1, 0);
+    return reinterpret_cdecl(0x0170C6F0, int, 0, "GlobalManager", hInstance, lpCmdLine, 1, 0);
 }
 
 void CGlobalManager::Initialize()
@@ -52,7 +47,7 @@ void CGlobalManager::Initialize()
     MEMUTIL_REPLACE_OFFSET(0x017B274D, &GlobalManager_WinMain);
 
     // MsgValidation hook
-    MEMUTIL_REPLACE_OFFSET(0x0172C017, &MsgValidator::ValidateMsg);
+    //MEMUTIL_REPLACE_OFFSET(0x0172C017, &MsgValidator::ValidateMsg);
 }
 
 BOOL CGlobalManager::init_module()
@@ -84,8 +79,8 @@ BOOL CGlobalManager::init_localdata()
 
     Logger::info2("New secret key applied: \"%s\"", (const char*)0x018056D0);
 
-    HWND phWnd = g_pGlobalManager->GetWinHandle();
-    ShowWindow(phWnd, SW_MINIMIZE);
+    //HWND phWnd = g_pGlobalManager->GetWinHandle();
+    //ShowWindow(phWnd, SW_HIDE);
 
     return reinterpret_thiscall(0x01674DF0, BOOL, this);
 }
@@ -102,5 +97,3 @@ uint8_t CGlobalManager::GetServerBodyID(const char* moduleName)
     if (!pModule) return NULL;
     return *(unsigned char*)pModule;
 }
-
-

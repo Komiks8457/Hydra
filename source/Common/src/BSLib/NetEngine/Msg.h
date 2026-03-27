@@ -453,10 +453,10 @@ protected:
     DWORD	    m_nBufCapacity;                 // 0x104C
 
     // for msg_header direct accessing
-    WORD*	    m_pID;				            // 0x1050 Msg ID
-    WORD*	    m_pDataSize;		            // 0x1054 Msg Size ( Not Header )
-    BYTE*	    m_pSeq;			                // 0x1058 Msg Sequence
-    BYTE*	    m_pCheckSum;		            // 0x105C Msg CheckSum
+    WORD*	    m_pID;				            // 0x1050 / 4176 Msg ID
+    WORD*	    m_pDataSize;		            // 0x1054 / 4180 Msg Size ( Not Header )
+    BYTE*	    m_pSeq;			                // 0x1058 / 4184 Msg Sequence
+    BYTE*	    m_pCheckSum;		            // 0x105C / 4188 Msg CheckSum
 
     // temporary associated object
     DWORD	    m_dwSession;		            // 0x1060 SessionID

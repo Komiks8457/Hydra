@@ -2,12 +2,12 @@
 #define GLOBALMANAGER_H
 
 #include "pch.h"
+#include "BSLib/NetEngine/Msg.h"
 
 class CGlobalManager {
 public:
     static void Initialize();
     static HWND GetWinHandle();
-
     uint8_t GetServerBodyID(const char *moduleName);
 
 private:

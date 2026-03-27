@@ -20,6 +20,27 @@ template<> HydraFramework::CMainProcess* CSingletonT<HydraFramework::CMainProces
 
 namespace HydraFramework
 {
+    void GetCurrentDLLName(stra_t &name)
+    {
+        HMODULE hModule = NULL;
+
+        if (GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS |
+                              GET_MODULE_HANDLE_EX_FLAG_UNCHANGED_REFCOUNT,
+                              (LPCTSTR)GetCurrentDLLName, &hModule)) {
+
+            TCHAR szPath[MAX_PATH];
+            if (GetModuleFileName(hModule, szPath, MAX_PATH))
+            {
+                name = szPath;
+                size_t dotPos = name.find_last_of(_T('.'));
+
+                if (dotPos != stra_t::npos)
+                    name.replace(dotPos, name.length() - dotPos, _T(".ini"));
+                else name += _T(".ini");
+            }
+        }
+    }
+
     void InitTask(void *ptr)
     {
         DWORD netengine = MEMUTIL_ADD_PTR(ptr, 0x14C);
@@ -29,7 +50,7 @@ namespace HydraFramework
             Sleep(50);
         }
 
-        Logger::warn2("g_pNetEngine = CNetEngine instance (0x%p)", g_pNetEngine);
+        //Logger::warn2("g_pNetEngine = CNetEngine instance (0x%p)", g_pNetEngine);
     }
 
     void CustomMsgHandler(void* ptr)
@@ -132,6 +153,8 @@ namespace HydraFramework
         entry.pointer = ptr;
         entry.name = className;
         m_className.push_back(entry);
+
+        GetCurrentDLLName(m_dllName);
     }
 
     CMainProcess::~CMainProcess()

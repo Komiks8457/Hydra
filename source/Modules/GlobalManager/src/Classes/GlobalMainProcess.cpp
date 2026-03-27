@@ -1,6 +1,6 @@
 #include "GlobalMainProcess.h"
 #include "utils/MemoryUtility.h"
-#include "../../../../HydraFramework/src/HydraFramework.h"
+#include "HydraFramework.h"
 #include "BSLib/AppLogger.h"
 #include "BSLib/NetEngine/NetEngine.h"
 
@@ -37,48 +37,21 @@ int64_t CGlobalMainProcess::RegisterMsgHandler()
 
 int32_t CGlobalMainProcess::HandleMsg(CMsg *pMsg, DWORD dwOverlappedJobID, LPVOID lpParam, CMassiveMsg *pMassiveMsg)
 {
-    /*if (pMsg)
-    {
-        WORD  wMsgID = pMsg->GetMsgID();
-        DWORD dwMsgSize = pMsg->GetMsgSize();
-        DWORD dwSessionID = pMsg->GetSessionID();
-
-        switch (wMsgID) {
-            case 0x2001:
-                if (dwSessionID)
-                    g_pHydraMainProcess->HandleMsg(pMsg);
-                break;
-            case 0x600D:
-                if (dwMsgSize > 1000)
-                    g_pHydraMainProcess->HandleMsg(pMsg);
-                break;
-        }
-
-        pMsg->ResetPos();
-    }*/
-
-    if (g_pHydraMainProcess && pMsg) {
-        g_pHydraMainProcess->HandleMsg(pMsg); //copy
-
-        if (pMsg->GetMsgID() == 0x632D)
-        {
-            DELMSG(pMsg);
-            return NULL;
-        }
-    }
-
     return reinterpret_thiscall(0x0173B810, int32_t, this, pMsg, dwOverlappedJobID, lpParam, pMassiveMsg);
 }
 
 void CGlobalMainProcess::SendMsgToServerBodyDirectly(CMsg *pMsg, DWORD dwOverlappedJobID, LPVOID lpParam,
                                                      CMassiveMsg *pMassiveMsg)
 {
-    reinterpret_thiscall(0x173CDA0, void, this, pMsg, dwOverlappedJobID, lpParam, pMassiveMsg);
+    reinterpret_thiscall(0x0173CDA0, void, this, pMsg, dwOverlappedJobID, lpParam, pMassiveMsg);
 }
 
 int* CGlobalMainProcess::OnENM_SESSION_LOST(CMsg *pMsg, DWORD dwOverlappedJobID, LPVOID lpParam,
                                             CMassiveMsg *pMassiveMsg)
 {
-    if (pMsg) g_pHydraMainProcess->HandleMsg(pMsg);
     return reinterpret_thiscall(0x01745940, int*, this, pMsg, dwOverlappedJobID, lpParam, pMassiveMsg);
 }
+
+/*
+ char __stdcall sub_173C4F0(int a1, int a2)
+ * */

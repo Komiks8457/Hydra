@@ -5,6 +5,7 @@
 #include "BSLib/Pattern/Singleton.h"
 #include "BSLib/CriticalSectionScoped.h"
 #include "utils/ThreadPool.h"
+#include "BSLib/Utility/ClassLink.h"
 
 ///////////////////////////////////////////////////////////
 // GlobalData
@@ -72,6 +73,8 @@ namespace HydraFramework
 
         void DelSessionID(DWORD dwSessionID);
 
+        const stra_t& GetSettingFile() { return m_dllName; }
+
     private:
         CMainProcess(void* ptr, const char* className);
         virtual ~CMainProcess();
@@ -83,6 +86,7 @@ namespace HydraFramework
         std::vector<ClassEntry> m_className;
         db_map_t m_db;
         session_map_t m_sessions;
+        stra_t m_dllName;
 
         CMainProcess(const CMainProcess&);
         CMainProcess& operator=(const CMainProcess&);

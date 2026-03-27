@@ -2,12 +2,12 @@ include(version/VersionInfo.cmake)
 
 generate_product_version(VersionInfo
         VERSION_MAJOR       1
-        FILE_DESCRIPTION    "Module Extension"
+        FILE_DESCRIPTION    "HydraFramework Module"
         COMPANY_NAME        "8ATHALA Co., Ltd."
         COMPANY_COPYRIGHT   "Copyright (C) 2026"
         ORIGINAL_FILENAME   "HYDRA.DLL"
         INTERNAL_NAME       "HYDRA"
-        BUNDLE              "HydraFramework Module Helper"
+        BUNDLE              "HydraFramework Module"
 )
 
 set(RESOURCE_FILES

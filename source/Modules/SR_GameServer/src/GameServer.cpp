@@ -88,7 +88,7 @@ BOOL CGameServer::init_localdata()
         PutLog(FATAL, "Failed to initialize DbManager");
         return FALSE;
     } else {
-        const std::string& database = "Database.ini";
+        const std::string& database = g_pHydraMainProcess->GetSettingFile();
 
         switch (g_pDbMgr->InitDB(database))
         {
