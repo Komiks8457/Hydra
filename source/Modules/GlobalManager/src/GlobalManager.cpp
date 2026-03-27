@@ -1,6 +1,6 @@
 #include "GlobalManager.h"
 #include "BSLib/AppLogger.h"
-#include "BSLib/HydraFramework.h"
+#include "HydraFramework.h"
 #include "utils/MemoryUtility.h"
 #include "Classes/GlobalMainProcess.h"
 

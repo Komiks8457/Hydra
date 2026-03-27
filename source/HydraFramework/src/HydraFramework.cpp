@@ -1,6 +1,6 @@
 #include "HydraFramework.h"
-#include "AppLogger.h"
-#include "NetEngine/NetEngine.h"
+#include "BSLib/AppLogger.h"
+#include "BSLib/NetEngine/NetEngine.h"
 #include "utils/MemoryUtility.h"
 #include "version.h"
 

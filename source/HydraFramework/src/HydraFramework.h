@@ -2,9 +2,9 @@
 #define HYDRAPROCESS_H
 
 #include "pch.h"
-#include "utils/ThreadPool.h"
 #include "BSLib/Pattern/Singleton.h"
-#include "CriticalSectionScoped.h"
+#include "BSLib/CriticalSectionScoped.h"
+#include "utils/ThreadPool.h"
 
 ///////////////////////////////////////////////////////////
 // GlobalData

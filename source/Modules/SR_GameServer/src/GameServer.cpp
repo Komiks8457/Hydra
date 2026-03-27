@@ -1,6 +1,6 @@
 #include "GameServer.h"
 #include "BSLib/AppLogger.h"
-#include "BSLib/HydraFramework.h"
+#include "HydraFramework.h"
 #include "BSLib/Database/DbManager.h"
 #include "utils/MemoryUtility.h"
 #include "Classes/GameMainProcess.h"

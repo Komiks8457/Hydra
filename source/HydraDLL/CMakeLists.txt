@@ -10,7 +10,12 @@ generate_product_version(VersionInfo
         BUNDLE              "HydraFramework Module Helper"
 )
 
-set(RESOURCE_FILES "src/Hydra.cpp" "src/Hydra.def" "src/Library.cpp" "src/StaticPatches.cpp")
+set(RESOURCE_FILES
+        "src/Hydra.cpp"
+        "src/Hydra.def"
+        "src/Library.cpp"
+        "src/StaticPatches.cpp"
+)
 
 add_library(HydraDLL SHARED ${RESOURCE_FILES} ${VersionInfo})
 
