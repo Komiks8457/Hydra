@@ -387,3 +387,25 @@ void CMsg::Overwrite(void* pBuf, DWORD nLen, DWORD nPos)
         ::memcpy(&m_pActiveBuffer[nPos], pBuf, nLen);
     }
 }
+
+void CMsg::Finalize()
+{
+    if (!m_pActiveBuffer || !m_pDataSize || !m_pCheckSum)
+        return;
+
+    WORD wDataSize = (WORD)(m_nWrCur - MSG_HEADER_SIZE);
+    *m_pDataSize = wDataSize;
+
+    BYTE byChecksum = 0;
+    for (WORD i = 0; i < m_nWrCur; ++i)
+    {
+        if (i == MSG_OFFSET_CHECKSUM)
+            continue;
+
+        byChecksum += m_pActiveBuffer[i];
+    }
+
+    *m_pCheckSum = byChecksum;
+
+    m_wsaBuf[0].len = m_nWrCur;
+}

@@ -158,7 +158,7 @@ public:
 /////////////////////////////////////
 // CMsg
 /////////////////////////////////////
-class CMsg: public IIOContext
+class CMsg: public IIOContext, public OVERLAPPED
 {
 private:
 #define _GET_TYPED_VALUE(type)           \
@@ -274,6 +274,7 @@ public:
     void    PrintDumpData(const char *funcName);
     void    WriteDumpData(const char *funcName);
     void    Overwrite(void *pBuf, DWORD nLen, DWORD nPos);
+    void    Finalize();
 
     ////////////////////////////////////////////////////
     // Templates & Helpers

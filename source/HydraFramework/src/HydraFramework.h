@@ -6,6 +6,7 @@
 #include "BSLib/CriticalSectionScoped.h"
 #include "utils/ThreadPool.h"
 #include "BSLib/Utility/ClassLink.h"
+#include "DataManager/RefDataManager.h"
 
 ///////////////////////////////////////////////////////////
 // GlobalData

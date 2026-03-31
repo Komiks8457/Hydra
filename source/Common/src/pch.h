@@ -4,6 +4,7 @@
 #pragma once
 
 #include "framework.h"
+#include "stdext.h"
 #include "stdint.h"
 #include "typedef.h"
 

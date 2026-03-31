@@ -11,7 +11,7 @@ class CSingletonT
 public:
     CSingletonT()
     {
-        _ASSERT( s_pObject == nullptr );
+        _ASSERT( s_pObject == NULL );
         ULONG_PTR offset = (ULONG_PTR)(T*)1 - (ULONG_PTR)(CSingletonT<T>*)(T*)1;
         s_pObject = (T*)((ULONG_PTR)this + offset);
     }

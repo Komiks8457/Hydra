@@ -3,6 +3,7 @@
 #include "HydraFramework.h"
 #include "utils/MemoryUtility.h"
 #include "Classes/GlobalMainProcess.h"
+#include "BSLib/Database/DbManager.h"
 
 CGlobalManager* g_pGlobalManager = NULL;
 
@@ -55,29 +56,80 @@ BOOL CGlobalManager::init_module()
     HydraFramework::CMainProcess::CreateInstance(this, "GlobalManager");
 
     if (!g_pHydraMainProcess) {
-        PutLog(FATAL, "Failed to initialize Hydra");
+        PutLog(FATAL, "Failed to initialize HydraFramework::CMainProcess.");
+        return FALSE;
+    }
+
+    HydraFramework::CRefDataManager::CreateInstance();
+
+    if (!g_pRDM) {
+        PutLog(FATAL, "Failed to initialize HydraFramework::CRefDataManager.");
+        return FALSE;
+    }
+
+    CDbManager::CreateInstance(10, 20);
+
+    if (!g_pDbMgr) {
+        PutLog(FATAL, "Failed to initialize CDbManager.");
         return FALSE;
     }
 
     MEMUTIL_WRITE_POINTER(0x018056D0, GlobalData::SecretKey, sizeof(GlobalData::SecretKey));
+    Logger::info2("New secret key applied: \"%s\"", (const char*)0x018056D0);
 
     return reinterpret_thiscall(0x0172A540, BOOL, this);
 }
 
 BOOL CGlobalManager::init_localdata()
 {
-    if (!g_pHydraMainProcess) {
-        PutLog(FATAL, "Failed to initialize Hydra");
-        return FALSE;
-    }
+    const std::string &database = g_pHydraMainProcess->GetSettingFile();
+    const std::string &version  = g_pHydraMainProcess->GetVersion();
 
-    std::string version = g_pHydraMainProcess->GetVersion();
     PutLog(FATAL, "*******************************************************************");
     PutLog(FATAL, "[SROR] HydraFramework was initialized successfully");
     PutLog(FATAL, "%s %s Compiled (%s)", __DATE__, __TIME__, version.c_str());
     PutLog(FATAL, "*******************************************************************");
 
-    Logger::info2("New secret key applied: \"%s\"", (const char*)0x018056D0);
+    switch (g_pDbMgr->InitDB(database))
+    {
+        case -999:
+            PutLog(FATAL, "Failed to read %s", database.c_str());
+            return FALSE;
+        case -1:
+            PutLog(FATAL, "Cannot find AccountDB entry in %s", database.c_str());
+            return FALSE;
+        case -2:
+            PutLog(FATAL, "Cannot connect to AccountDB, please check %s", database.c_str());
+            return FALSE;
+        case -3:
+            PutLog(FATAL, "Cannot find ShardDB entry in %s", database.c_str());
+            return FALSE;
+        case -4:
+            PutLog(FATAL, "Cannot connect to ShardDB, please check %s", database.c_str());
+            return FALSE;
+        case -5:
+            PutLog(FATAL, "Cannot find LogDB entry in %s", database.c_str());
+            return FALSE;
+        case -6:
+            PutLog(FATAL, "Cannot connect to LogDB, please check %s", database.c_str());
+            return FALSE;
+    }
+
+    switch (g_pRDM->InitializeData())
+    {
+        case -65535:
+            PutLog(FATAL, "g_pDbMgr is NULL.");
+            return FALSE;
+        case -65534:
+            PutLog(FATAL, "Failed loading RefObjItem.");
+            return FALSE;
+        case -65533:
+            PutLog(FATAL, "Failed loading RefObjChar.");
+            return FALSE;
+        case -65532:
+            PutLog(FATAL, "Failed loading RefSkill.");
+            return FALSE;
+    }
 
     //HWND phWnd = g_pGlobalManager->GetWinHandle();
     //ShowWindow(phWnd, SW_HIDE);
